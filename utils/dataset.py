@@ -8,42 +8,33 @@ from tqdm import tqdm
 from PIL import Image
 import random
 import pickle
+import math
+import torch.utils.data as data
+from torchvision.transforms import ToTensor
 
 
-class StyleTransferDataset(torch.utils.data.Dataset):
-    def __init__(self, path, file_content_images, file_style_images, style_model, device):
+class LoadFilesDataset(torch.utils.data.Dataset):
+    """
+    Pytorch dataset that loads a random file from a directory. Since this is a random process, it is enough if the dataset has length "Batch size".
+    Note that the files have to be labeled 0.jpg ... N.jpg where N is the last file.
+    """
 
-        self.content_save_path = path + "content/"
-        self.style_save_path = path + "style/"
-
-        os.makedirs(self.content_save_path,exist_ok=True)
-        os.makedirs(self.style_save_path,exist_ok=True)
-
-        for i,file in enumerate(file_content_images):
-            img = ToTensor()(Image.open(file)).to(device)
-            _,content_features,_ = style_model(img.unsqueeze(0))
-            with open(self.content_save_path + str(i) + ".pkl") as f:
-                pickle.dump((img,content_features),f)
-
-        for i,file in enumerate(file_style_images):
-            img = ToTensor()(Image.open(file)).to(device)
-            _,_,style_features = style_model(img.unsqueeze(0))
-            with open(self.style_save_path + str(i) + ".pkl") as f:
-                pickle.dump((img,style_features),f)
-
-        self.content_ids = range(len(file_content_images))
-        self.style_ids = range(len(file_style_images))
+    def __init__(self, file_path, batch_size):
+        self.file_path = file_path
+        self.batch_size = batch_size
+        self.num_files = len(os.listdir(file_path))
+        self.to_tensor = ToTensor()
+      
 
     def __len__(self):
-        return 1
+        return self.batch_size
 
-    def __getitem__(self, idx):
-        random_content_id = random.choice(self.content_ids)
-        random_style_id = random.choice(self.style_ids)
+    def __getitem__(self, _):
 
-        with open(self.content_save_path + str(random_content_id) + ".pkl") as f:
-            content_img, content_features = pickle.load(f)
-        with open(self.style_save_path + str(random_style_id) + ".pkl") as f:
-            style_img, style_features = pickle.load(f)
+        random_file_id = str(random.randint(0,self.num_files-1))
 
-        return content_img,content_features,style_img,style_features
+        # Since PIL has the format [W x H x C], and ToTensor() transforms it into [C x H x W], we have to permute the tensor to shape [C x W x H]
+        img = self.to_tensor(Image.open(self.file_path + random_file_id + ".jpg")).permute(0,2,1)
+
+        return img
+    
