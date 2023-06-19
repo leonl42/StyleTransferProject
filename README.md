@@ -32,5 +32,5 @@ But do not wory about them.
 could look like this "C:/Users/Documents/images/".
 3. All notebooks can be run independently from each other. But it might make sense to start with 1_style_gatyes.ipynb since it contains the most comments.
 Furthermore, training loops are similar to an extend in all notebooks.
-4. Note that models have only been trained for a short amount of time on a small datasets with non-fitted hyperparameters. Results are expected to not look like in the papers.
+4. Note that models have only been trained for a short amount of time on a small datasets with non-fitted hyperparameters. Results are expected to not look great.
 Furthermore, note that AdaIN and SANet can be trained with multiple style images, which is not done here. We use the same style image.
