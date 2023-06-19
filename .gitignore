@@ -1,13 +1,5 @@
 
 
 # ignore ALL files in ANY directory named temp
-adain_save/
-content_frames/
+test2017/
 utils/__pycache__/
-feedforward_save/
-content_video/
-style_frames/
-style_video/
-anime.jpg
-frame0.jpg
-input

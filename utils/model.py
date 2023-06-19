@@ -128,6 +128,7 @@ class AdaIN(nn.Module):
 class SANet(nn.Module):
     def __init__(self, channels) -> None:
         super().__init__()
+
         self.conv1 = nn.Conv2d(channels,channels,kernel_size=1,stride=1)
         self.conv2 = nn.Conv2d(channels,channels,kernel_size=1,stride=1)
         self.conv3 = nn.Conv2d(channels,channels,kernel_size=1,stride=1)
@@ -147,17 +148,9 @@ class SANet(nn.Module):
         g_s = self.conv2(f_s_norm).view(b,c,-1)
         h_s = self.conv3(f_s).view(b,c,-1)
 
-        attention_map = torch.bmm(g_s,torch.transpose(f_c,1,2))
-        
-        return torch.bmm(attention_map,h_s).view(b,c,w,h)
+        attention_map = torch.bmm(torch.transpose(f_c,1,2),g_s)
+
+        attention_map = F.softmax(attention_map,dim=-1)
+
+        return torch.bmm(h_s,attention_map).view(b,c,w,h)
     
-class SAStyleNetwork(nn.Module):
-    def __init__(self, feature_shape, feature_style_shape, decoder) -> None:
-        super().__init__()
-
-        self.conv1 = nn.Conv2d(feature_shape[0],feature_shape[0],kernel_size=1,stride=1)
-        self.conv2 = nn.Conv2d(feature_style_shape[0],feature_style_shape[0],kernel_size=1,stride=1)
-        self.conv3 = nn.Conv2d(max([feature_shape[0],feature_style_shape[0]]),max([feature_shape[0],feature_style_shape[0]]),kernel_size=3, stride=3)
-
-    def forward(self, img, img_style):
-        pass

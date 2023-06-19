@@ -16,7 +16,7 @@ def normalize(f, f_target):
     """
 
     # normalize feature tensors
-    f , f_target = (f - f.mean((1,2,3),keepdim=True))/f.std((1,2,3),keepdim=True),(f_target - f_target.mean((1,2,3),keepdim=True))/f_target.std((1,2,3),keepdim=True)
+    f , f_target = (f - f.mean((1,2,3),keepdim=True))/(f.std((1,2,3),keepdim=True)+1e-7),(f_target - f_target.mean((1,2,3),keepdim=True))/(f_target.std((1,2,3),keepdim=True)+1e-7)
 
     return f,f_target
 
@@ -29,7 +29,7 @@ def normalize_cw(f, f_target):
     """
 
     # normalize feature tensors
-    f , f_target = (f - f.mean((2,3),keepdim=True))/f.std((2,3),keepdim=True),(f_target - f_target.mean((2,3),keepdim=True))/f_target.std((2,3),keepdim=True)
+    f , f_target = (f - f.mean((2,3),keepdim=True))/(f.std((2,3),keepdim=True)+1e-7),(f_target - f_target.mean((2,3),keepdim=True))/(f_target.std((2,3),keepdim=True)+1e-7)
 
     return f,f_target
 

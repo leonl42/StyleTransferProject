@@ -5,7 +5,7 @@ import numpy as np
 from torchvision.transforms import ToTensor,ToPILImage
 import os
 from tqdm import tqdm
-from PIL import Image
+from PIL import Image,ImageOps
 import random
 import pickle
 import math
@@ -13,17 +13,18 @@ import torch.utils.data as data
 from torchvision.transforms import ToTensor
 
 
-class LoadFilesDataset(torch.utils.data.Dataset):
+class LoadCoCoDataset(torch.utils.data.Dataset):
     """
-    Pytorch dataset that loads a random file from a directory. Since this is a random process, it is enough if the dataset has length "Batch size".
-    Note that the files have to be labeled 0.jpg ... N.jpg where N is the last file.
+    Pytorch dataset that loads a random file from a directory. 
     """
 
-    def __init__(self, file_path, batch_size):
+    def __init__(self, file_path, batch_size, image_size):
         self.file_path = file_path
         self.batch_size = batch_size
-        self.num_files = len(os.listdir(file_path))
+        self.files = os.listdir(file_path)
+        self.num_files = len(self.files)
         self.to_tensor = ToTensor()
+        self.image_size = image_size
       
 
     def __len__(self):
@@ -31,10 +32,16 @@ class LoadFilesDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, _):
 
-        random_file_id = str(random.randint(0,self.num_files-1))
+        random_file = random.choice(self.files)
+        img = Image.open(self.file_path + random_file).convert("RGB")
 
+        # center crop image
+        img = ImageOps.fit(img,(min(img.size),min(img.size)))
+
+        img = img.resize(self.image_size)
+        
         # Since PIL has the format [W x H x C], and ToTensor() transforms it into [C x H x W], we have to permute the tensor to shape [C x W x H]
-        img = self.to_tensor(Image.open(self.file_path + random_file_id + ".jpg")).permute(0,2,1)
+        img = self.to_tensor(img).permute(0,2,1)
 
         return img
     
