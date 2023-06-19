@@ -15,17 +15,17 @@ To do so I used 4 approaches.
 
 Each approache is in a separate notebook. 
 
-** If you wish to just do Inference: ** 
+**If you wish to just do Inference:** 
 1. Create an environment from the environment.yml
 2. Only run the cells that have a comment with "INFERENCE" in the top (might have to correct paths)
 
-**  If you wish to also retrain the models: ** 
+**If you wish to also retrain the models:** 
 1. Create an environment from the environment.yml
 2. Download coco by opening this link: http://images.cocodataset.org/zips/train2017.zip
 3. Just run one cell after the other (might have to correct paths)
 
 
-Some important things about the notebooks:
+**Some important things about the notebooks:**
 1. Hyperparameters are in enum style (All caps). These can be changed. Almost all hyperparameters are in the notebook. There are only one or two in the .py files in the utils folder.
 But do not wory about them. 
 2. I use a path naming style where folders end with "/". So specifying your image path
