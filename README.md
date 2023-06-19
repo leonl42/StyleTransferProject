@@ -17,12 +17,12 @@ Each approache is in a separate notebook.
 
 **If you wish to just do Inference:** 
 1. Create an environment from the environment.yml
-2. Only run the cells that have a comment with "INFERENCE" in the top (might have to correct paths)
+2. Only run the cells that have a comment with "INFERENCE" in the top (might have to correct paths in the project)
 
 **If you wish to also retrain the models:** 
 1. Create an environment from the environment.yml
-2. Download coco by opening this link: http://images.cocodataset.org/zips/train2017.zip
-3. Just run one cell after the other (might have to correct paths)
+2. Download the coco dataset by opening this link: http://images.cocodataset.org/zips/train2017.zip
+3. Just run one cell after the other (might have to correct paths in the project)
 
 
 **Some important things about the notebooks:**
@@ -32,4 +32,5 @@ But do not wory about them.
 could look like this "C:/Users/Documents/images/".
 3. All notebooks can be run independently from each other. But it might make sense to start with 1_style_gatyes.ipynb since it contains the most comments.
 Furthermore, training loops are similar to an extend in all notebooks.
-
+4. Note that models have only been trained for a short amount of time on a small datasets with non-fitted hyperparameters. Results are expected to not look like in the papers.
+Furthermore, note that AdaIN and SANet can be trained with multiple style images, which is not done here. We use the same style image.
