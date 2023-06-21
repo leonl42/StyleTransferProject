@@ -26,11 +26,13 @@ Each approache is in a separate notebook.
 
 
 **Some important things about the notebooks:**
-1. Hyperparameters are in enum style (All caps). These can be changed. Almost all hyperparameters are in the notebook. There are only one or two in the .py files in the utils folder.
+1. Having a GPU is not necessariy for inference. Furthermore, this project was created with the intend to run it on a local machine. If you wish to run it on colab,
+you might have to change all the paths and the imports aswell. (The .ipynb notebooks import from the .py files in utils/)
+3. Hyperparameters are in enum style (All caps). These can be changed. Almost all hyperparameters are in the notebook. There are only one or two in the .py files in the utils folder.
 But do not wory about them. 
-2. I use a path naming style where folders end with "/". So specifying your image path
+4. I use a path naming style where folders end with "/". So specifying your image path
 could look like this "C:/Users/Documents/images/".
-3. All notebooks can be run independently from each other. But it might make sense to start with 1_style_gatyes.ipynb since it contains the most comments.
+5. All notebooks can be run independently from each other. But it might make sense to start with 1_style_gatyes.ipynb since it contains the most comments.
 Furthermore, training loops are similar to an extend in all notebooks.
-4. Note that models have only been trained for a short amount of time on a small datasets with non-fitted hyperparameters. Results are expected to not look great.
+6. Note that models have only been trained for a short amount of time on a small datasets with non-fitted hyperparameters. Results are expected to not look great.
 Furthermore, note that AdaIN and SANet can be trained with multiple style images, which is not done here. We use the same style image.
